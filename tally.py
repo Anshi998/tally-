@@ -1,3 +1,4 @@
+  
 from tkinter import *
 import os
 import sys
@@ -128,6 +129,3 @@ def performTally():
     button1.pack(side=LEFT,fill=X,padx=10)
 
     root.mainloop()
-
-     
-

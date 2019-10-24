@@ -99,11 +99,11 @@ def perfromStock_Summary():
 
 
             
-            credentials = service_account.Credentials.from_service_account_file('D:/Equipshare/tally/Tally-connector-10b12c06b3eb.json',scopes=["https://www.googleapis.com/auth/cloud-platform"],)
+            credentials = service_account.Credentials.from_service_account_file('E:\Tally Connector\Tally-connector-6d187b87ff6d.json',scopes=["https://www.googleapis.com/auth/cloud-platform"],)
             client = storage.Client(credentials=credentials, project='tally-connector')
             bucket = client.get_bucket('tally-connector')
             blob = bucket.blob('myfile')
-            blob.upload_from_filename('C:/Users/91908/Desktop/Tally/project/stock-summary-23-10-19.csv')
+            blob.upload_from_filename(completeName)
             if(blob.public_url):
                 print("file uploded successfully")
 
@@ -152,15 +152,20 @@ def perfromStock_Summary():
    
 
     def job():
-        getstocksummary(g,arr)
-        reader = csv.DictReader(open("cron.csv"))
-        for raw in reader:
-            print(raw)
-
+        getSummaryInDetail(fromDate, toDate, ledgers)
+    
+    with open('cron.csv', 'r') as f:
+        res=f.read()
+        minutes=res.split(",")[1].split('"')[0]
+        hours=res.split(",")[0][1:]
+        #print(miniutes+" "+hours)
+    
     schedule.every(2).minutes.do(job)
     schedule.every().hour.do(job)
-    schedule.every().day.at("10:53").do(job)
+    print(hours+" "+minutes)
+    schedule.every().day.at("{}:{}".format(hours,minutes)).do(job)
 
     while 1:
         schedule.run_pending()
-        time.sleep(1)
+        
+        

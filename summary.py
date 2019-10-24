@@ -36,4 +36,3 @@ def performSummary():
 
 
     root.mainloop()
-    

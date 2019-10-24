@@ -37,4 +37,3 @@ def performTransaction():
 
 
     root.mainloop()
-    

@@ -136,11 +136,11 @@ def performStockTransaction():
                         #csvwriter = csv.writer(file1)
 
             
-            credentials = service_account.Credentials.from_service_account_file('D:/Equipshare/tally/Tally-connector-10b12c06b3eb.json',scopes=["https://www.googleapis.com/auth/cloud-platform"],)
+            credentials = service_account.Credentials.from_service_account_file('E:\Tally Connector\Tally-connector-6d187b87ff6d.json',scopes=["https://www.googleapis.com/auth/cloud-platform"],)
             client = storage.Client(credentials=credentials, project='tally-connector')
             bucket = client.get_bucket('tally-connector')
             blob = bucket.blob('myfile')
-            blob.upload_from_filename('C:/Users/91908/Desktop/Tally/project/Transactions-23-10-19.csv')
+            blob.upload_from_filename(completeName)
             if(blob.public_url):
                 print("file uploded successfully")
 
@@ -149,7 +149,7 @@ def performStockTransaction():
 
                     
         except TypeError:
-            print('nothing')
+            #print('nothing')
 
 
 
@@ -175,6 +175,21 @@ def performStockTransaction():
     toDate = "20190731"
     getSummaryInDetail(fromDate,toDate,"Sales")
     #fromDate = date.strftime("%y%m%d"), toDate = date.strftime("%y%m%d")
+    
+    
+    fields = ("Transaction ID", "Transaction Type (In/Out/Return)", "Source", "Destination", "SKU", "Quantity", "Unit", "Year", "Month", "Date", "Document Ref")
+    ledgers = ['Purchase', 'Sales', 'Payment'] ;
+ 
+    fieldsWritten = True
+    if fieldsWritten:
+              for i in range(len(ledgers)):
+                  #print(arr[i]['ledgers'])
+                  getSummaryInDetail(fromDate, toDate, ledgers)
+          
+
+    else:
+        fieldsWritten = False
+		
     def job():
         getSummaryInDetail(fromDate, toDate, ledgers)
     
@@ -191,17 +206,7 @@ def performStockTransaction():
 
     while 1:
         schedule.run_pending()
+        
 
-    fields = ("Transaction ID", "Transaction Type (In/Out/Return)", "Source", "Destination", "SKU", "Quantity", "Unit", "Year", "Month", "Date", "Document Ref")
-    ledgers = ['Purchase', 'Sales', 'Payment'] ;
     
-    fieldsWritten = True
-    if fieldsWritten:
-              for i in range(len(ledgers)):
-                  #print(arr[i]['ledgers'])
-                  getSummaryInDetail(fromDate, toDate, ledgers)
-          
-
-    else:
-        fieldsWritten = False
-    #this is code for cron that is static one how i call that time here?
+ 
