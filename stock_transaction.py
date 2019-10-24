@@ -136,7 +136,7 @@ def performStockTransaction():
                         #csvwriter = csv.writer(file1)
 
             
-            credentials = service_account.Credentials.from_service_account_file('E:\Tally Connector\Tally-connector-6d187b87ff6d.json',scopes=["https://www.googleapis.com/auth/cloud-platform"],)
+            credentials = service_account.Credentials.from_service_account_file(Os.getcwd()/Tally-connector-6d187b87ff6d.json',scopes=["https://www.googleapis.com/auth/cloud-platform"],)
             client = storage.Client(credentials=credentials, project='tally-connector')
             bucket = client.get_bucket('tally-connector')
             blob = bucket.blob('myfile')
